@@ -1,0 +1,23 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# Data and Models
+data/
+models/
+results/
+logs/
+
+# pytest cache
+.pytest_cache/
+
+# OS generated files
+.DS_Store
+*.swp
