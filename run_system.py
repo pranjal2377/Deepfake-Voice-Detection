@@ -24,7 +24,6 @@ def main():
     if args.mode == 'train':
         logger.info("Starting training pipelines...")
         subprocess.run([sys.executable, "src/training/train_deepfake_model.py"], env=env)
-        subprocess.run([sys.executable, "src/training/train_nlp_model.py"], env=env)
         
     elif args.mode == 'evaluate':
         logger.info("Initializing Evaluation...")

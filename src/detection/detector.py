@@ -26,7 +26,7 @@ from src.scoring.risk_scorer import RiskScorer
 from src.alerts.alert_system import generate_alert
 from src.utils.config import SAMPLE_RATE, FRAME_DURATION, HOP_DURATION
 from src.nlp.transcriber import AudioTranscriber
-from src.nlp.scam_detector import ScamDetector
+from src.nlp.bert_classifier import BertClassifier
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ class RealtimeDetector:
         self.sr = sr
         self.scorer = RiskScorer()
         self.transcriber = AudioTranscriber()
-        self.scam_detector = ScamDetector()
+        self.bert_classifier = BertClassifier()
         self._is_running = False
         self._thread: Optional[threading.Thread] = None
         self._callbacks: List[Callable] = []
@@ -109,7 +109,7 @@ class RealtimeDetector:
             
             # 4.5. NLP inference
             transcript = self.transcriber.transcribe(frame, sr)
-            nlp_result = self.scam_detector.analyze_transcript(transcript)
+            nlp_result = self.bert_classifier.analyze_transcript(transcript)
 
             # 5. Score
             self.scorer.add_prediction(probability, nlp_result["nlp_probability"])
@@ -294,7 +294,7 @@ class RealtimeDetector:
 
         # NLP inference
         transcript = self.transcriber.transcribe(frame, self.sr)
-        nlp_result = self.scam_detector.analyze_transcript(transcript)
+        nlp_result = self.bert_classifier.analyze_transcript(transcript)
 
         # Update scorer
         self.scorer.add_prediction(probability, nlp_result["nlp_probability"])

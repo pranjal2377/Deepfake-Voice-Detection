@@ -102,15 +102,15 @@ class ModelEvaluator:
             # we just do a simple pass if Transcriber is available
             try:
                 from src.nlp.transcriber import AudioTranscriber
-                from src.nlp.scam_detector import ScamDetector
+                from src.nlp.bert_classifier import BertClassifier
                 import warnings
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
                     transcriber = AudioTranscriber()
-                    scam_detector = ScamDetector()
+                    bert_classifier = BertClassifier()
                     
                     text = transcriber.transcribe(audio, sr)
-                    nlp_res = scam_detector.analyze_transcript(text)
+                    nlp_res = bert_classifier.analyze_transcript(text)
                     nlp_prob = nlp_res["nlp_probability"]
             except Exception as e:
                 logger.debug(f"NLP eval fail: {e}")

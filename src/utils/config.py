@@ -79,7 +79,6 @@ PROCESSED_DATA_DIR: str = os.path.join(PROJECT_ROOT, _config["paths"]["processed
 TEST_DATA_DIR: str = os.path.join(PROJECT_ROOT, _config["paths"]["test_data"])
 MODELS_DIR: str = os.path.join(PROJECT_ROOT, _config["paths"]["models"])
 DEEPFAKE_MODEL_PATH: str = os.path.join(PROJECT_ROOT, _config["paths"]["deepfake_model"])
-NLP_MODEL_PATH: str = os.path.join(PROJECT_ROOT, _config["paths"]["nlp_model"])
 RESULTS_DIR: str = os.path.join(PROJECT_ROOT, _config["paths"]["results"])
 DOCS_DIR: str = os.path.join(PROJECT_ROOT, _config["paths"]["docs"])
 
@@ -103,3 +102,9 @@ LOG_PATH: str = os.path.join(PROJECT_ROOT, _config["logging"]["log_path"])
 def get_config() -> Dict[str, Any]:
     """Return the full config dictionary."""
     return _config
+
+# ─── NLP Settings ──────────────────────────────────────
+NLP_BERT_MODEL_NAME: str = _config.get("nlp", {}).get("bert_model_name", "distilbert-base-uncased")
+NLP_CONFIDENCE_THRESHOLD: float = _config.get("nlp", {}).get("confidence_threshold", 0.5)
+NLP_DEVICE: str = _config.get("nlp", {}).get("device", "cpu")
+

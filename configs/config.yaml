@@ -1,68 +1,53 @@
-# ─── Project Configuration ─────────────────────────────────
-# Deepfake Voice Detection System
-
-# Audio settings
 audio:
-  sample_rate: 16000        # 16kHz standard for speech
-  frame_duration: 2.0       # seconds per analysis frame
-  hop_duration: 0.5         # overlap between frames
-  channels: 1               # mono audio
-  dtype: "float32"
-
-# Feature extraction
+  sample_rate: 16000
+  frame_duration: 2.0
+  hop_duration: 0.5
+  channels: 1
+  dtype: float32
 features:
-  n_mfcc: 40                # number of MFCC coefficients
-  n_mels: 128               # mel spectrogram bins
-  n_fft: 2048               # FFT window size
-  hop_length: 512           # hop length for STFT
-  fmax: 8000                # max frequency for mel scale
-
-# Model
+  n_mfcc: 40
+  n_mels: 128
+  n_fft: 2048
+  hop_length: 512
+  fmax: 8000
 model:
-  architecture: "cnn"       # "cnn" or "cnn_lstm"
-  confidence_threshold: 0.5 # Default decision threshold
-  input_length: 2.0         # seconds of audio per input
+  architecture: cnn
+  confidence_threshold: 0.5
+  input_length: 2.0
   batch_size: 32
   learning_rate: 0.001
   epochs: 50
   early_stopping_patience: 7
-
-# Risk scoring
 risk:
-  high_risk_threshold: 0.70      # > 70% = High risk (deepfake likely)
-  medium_risk_threshold: 0.40    # > 40% = Medium risk (suspicious)
-  aggregation_window: 5          # number of frames to aggregate
-  smoothing_factor: 0.3          # exponential smoothing alpha
-
-# Paths
+  high_risk_threshold: 0.7
+  medium_risk_threshold: 0.4
+  aggregation_window: 5
+  smoothing_factor: 0.3
 paths:
-  raw_data: "data/raw"
-  processed_data: "data/processed"
-  test_data: "data/test"
-  models: "models"
-  deepfake_model: "models/deepfake_model.pt"
-  nlp_model: "models/nlp_model.pkl"
-  results: "results"
-  docs: "docs"
-
-# Dataset
+  raw_data: data/raw
+  processed_data: data/processed
+  test_data: data/test
+  models: models
+  deepfake_model: models/deepfake_model.pt
+  results: results
+  docs: docs
 dataset:
-  train_path: "data/raw/training"
-  test_path: "data/raw/testing"
-  scam_dataset: "data/raw/scam_transcripts.csv"
-  train_ratio: 0.70
+  train_path: data/raw/training
+  test_path: data/raw/testing
+  scam_dataset: data/raw/scam_transcripts.csv
+  train_ratio: 0.7
   val_ratio: 0.15
   test_ratio: 0.15
   seed: 42
   augment_train: true
   augment_prob: 0.5
-
-# Logging system
 logging:
   enable_logs: true
-  log_path: "logs/call_analysis.json"
-
-# Dashboard
+  log_path: logs/call_analysis.json
 ui:
-  theme: "dark"
-  refresh_rate: 0.5         # seconds between UI updates
+  theme: dark
+  refresh_rate: 0.5
+nlp:
+  bert_model_name: distilbert-base-uncased
+  confidence_threshold: 0.5
+  device: cpu
