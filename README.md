@@ -27,7 +27,8 @@ This project provides a robust, end-to-end solution for detecting deepfake audio
 - **Speech-to-Text Transcription**: Employs local transcription capabilities (e.g., Whisper) to convert spoken audio into text.
 - **NLP Scam Intent Classification**: Uses a DistilBERT-based text classifier (`src/nlp/bert_classifier.py`) to classify speech intent into *Normal*, *Suspicious*, or *Scam*.
 - **Multimodal Risk Scoring**: Fuses deepfake probabilities and NLP scam intent scores to generate a comprehensive risk profile.
-- **Interactive UI Dashboard**: A sleek, real-time dashboard for visualization, evaluation, and monitoring of incoming audio streams.
+- **Live Microphone Integration**: Analyzes incoming audio on-the-fly directly inside the application for real-time threat scanning.
+- **Multi-Platform Deployments**: Seamlessly run the UI using a Standard Web Dashboard, a Native Desktop App, or a Mobile PWA (Progressive Web App).
 
 ---
 
@@ -89,26 +90,27 @@ The system uses the `DynamicSuperb/DeepFakeVoiceRecognition_DEEP-VOICE` dataset 
 
 ## ⚙️ Usage & Execution
 
-### 1. Training the Model
-To train the CNN-based deepfake detection model on the prepared dataset:
-```bash
-python scripts/train.py
-# Or using the unified runner:
-python run_system.py --mode train
-```
+The system supports **three** primary deployment wrappers for testing and using the Deepfake Analyzer:
 
-### 2. Evaluating the Model
-To run evaluations and generate metrics/reports against the test dataset:
+### 1. Web UI Dashboard (Standard)
+Launch the interactive web dashboard to visualize system capabilities on mock datasets, uploaded audio records, or the Live Microphone.
 ```bash
-python scripts/evaluate.py
-```
-
-### 3. Running the UI Dashboard (Demo Mode)
-Launch the interactive dashboard to visualize system capabilities on mock or uploaded audio records.
-```bash
+# Using the unified runner:
 python run_system.py --mode demo
-# Alternatively, you can run:
-./run_all.sh
+```
+
+### 2. Native Desktop Application
+Launch the system inside an isolated native desktop GUI window (runs cleanly in the background invisibly).
+```bash
+# Ensure required dependencies are installed (e.g. pywebview)
+./desktop_app.py
+```
+
+### 3. Voice Threat Scanner Mobile Client (PWA)
+Deploy the system wrapped in a Progressive Web App (PWA). This script automatically launches the internal ML engine and generates a QR Code in your terminal. You can scan it on your iPhone/Android to use it as a native mobile app!
+```bash
+# Generates local QR code for mobile connection
+./run_mobile_app.py
 ```
 
 > **Note for Demonstrations:**
@@ -116,6 +118,24 @@ python run_system.py --mode demo
 > ```bash
 > python patch.py
 > ```
+
+---
+
+## 🔧 Model Training & Validation
+
+### Training the Model
+To train the CNN-based deepfake detection model on the prepared dataset:
+```bash
+python scripts/train.py
+# Or using the unified runner:
+python run_system.py --mode train
+```
+
+### Evaluating the Model
+To run evaluations and generate metric reports against the test dataset:
+```bash
+python scripts/evaluate.py
+```
 
 ---
 
@@ -137,7 +157,9 @@ Deepfake_Voice_Detection/
 │   ├── scoring/         # Multimodal risk scoring engine
 │   ├── ui/              # Dashboard and user interface components
 │   └── utils/           # Shared helpers and configuration loaders
-├── run_system.py        # Main entry point for the system
+├── desktop_app.py       # Wrapper for the standalone Native Desktop execution
+├── run_mobile_app.py    # Wrapper for the Mobile Phone UI + QR Code server
+├── run_system.py        # Main entry point for the standard system
 ├── requirements.txt     # Python dependencies
 └── README.md            # Project documentation (You are here!)
 ```
