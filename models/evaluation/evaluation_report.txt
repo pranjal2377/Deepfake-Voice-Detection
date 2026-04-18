@@ -1,0 +1,46 @@
+============================================================
+  DEEPFAKE VOICE DETECTION — EVALUATION REPORT
+============================================================
+
+  Total Samples:      6
+  Errors:             0
+  Threshold Used:     0.50
+  Evaluation Time:    3.4s
+
+  ── Metrics ──
+  Accuracy:           0.5000
+  Precision:          0.0000
+  Recall:             0.0000
+  F1 Score:           0.0000
+  AUC-ROC:            1.0000
+  EER:                0.0000
+
+  Optimal Threshold:  0.36
+  Optimal F1:         1.0000
+
+  ── Confusion Matrix ──
+                    Predicted
+                  Real    Fake
+  Actual Real       3       0
+  Actual Fake       3       0
+
+  ── Per-Class Breakdown ──
+
+  REAL:
+    Samples:   3
+    Correct:   3 (100.0%)
+    Avg prob:  0.3545 ± 0.0030
+    Range:     [0.3511, 0.3583]
+
+  FAKE:
+    Samples:   3
+    Correct:   0 (0.0%)
+    Avg prob:  0.3971 ± 0.0019
+    Range:     [0.3944, 0.3990]
+
+  ── Misclassified Samples (3) ──
+    fake_0000.wav                   true=fake  pred=real  prob=0.3944
+    fake_0001.wav                   true=fake  pred=real  prob=0.3979
+    fake_0006.wav                   true=fake  pred=real  prob=0.3990
+
+============================================================

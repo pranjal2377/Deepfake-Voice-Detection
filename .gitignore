@@ -10,10 +10,10 @@ __pycache__/
 .idea/
 
 # Data and Models
-data/
-models/
-results/
-logs/
+# data/
+# models/
+# results/
+# logs/
 
 # pytest cache
 .pytest_cache/
