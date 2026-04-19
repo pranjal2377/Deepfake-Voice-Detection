@@ -56,6 +56,10 @@ def normalize_audio(audio: np.ndarray) -> np.ndarray:
     if len(audio) > 1:
         audio = np.append(audio[0], audio[1:] - 0.97 * audio[:-1])
 
+    # 0.5 Noise Gating (Spectral gating to remove static/hiss below a threshold)
+    # This prevents the CNN from latching onto background static as a "deepfake artifact"
+    audio = np.where(np.abs(audio) < 0.005, 0, audio)
+
     # 1. Remove DC Offset (typical in cheap laptop/phone mics)
     audio = audio - np.mean(audio)
     
