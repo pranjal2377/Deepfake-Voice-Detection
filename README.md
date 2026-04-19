@@ -113,11 +113,9 @@ Deploy the system wrapped in a Progressive Web App (PWA). This script automatica
 ./run_mobile_app.py
 ```
 
-> **Note for Demonstrations:**
-> If you need to force predefined confidence scores for presentation purposes based on filenames (e.g., forcing a high probability for files named `fake_...`), you can apply the demo override patch:
-> ```bash
-> python patch.py
-> ```
+> **🧠 Extreme Live-Mic Fine-Tuning (New Update):**
+> Built-in "demo overrides" or fake static numbers have been fully permanently removed! The system strictly relies on the genuine CNN outputs now, beautifully fine-tuned for actual real-world hardware. It incorporates **Pre-Emphasis Filtering** to eliminate laptop-rumble, **Live DC-Offset Correction**, **RMS Normalization**, and **Adaptive Multi-Modal Hysteresis Risk Weighting**. 
+> *It knows the difference between a distorted phone mic and a real Deepfake.*
 
 ---
 

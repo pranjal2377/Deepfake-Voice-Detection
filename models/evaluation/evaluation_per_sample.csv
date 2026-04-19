@@ -1,0 +1,7 @@
+path,filename,true_label,true_name,predicted_label,predicted_name,probability,correct
+/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/testing/fake/fake_0000.wav,fake_0000.wav,1,fake,0,real,0.39444342255592346,False
+/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/testing/fake/fake_0001.wav,fake_0001.wav,1,fake,0,real,0.39786073565483093,False
+/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/training/fake/fake_0006.wav,fake_0006.wav,1,fake,0,real,0.3990075886249542,False
+/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/training/real/real_0001.wav,real_0001.wav,0,real,0,real,0.3583274185657501,True
+/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/training/real/real_0005.wav,real_0005.wav,0,real,0,real,0.3539193570613861,True
+/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/training/real/real_0009.wav,real_0009.wav,0,real,0,real,0.351138710975647,True

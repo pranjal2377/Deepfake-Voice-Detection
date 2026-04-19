@@ -48,12 +48,26 @@ def load_audio(file_path: str, sr: int = SAMPLE_RATE) -> Tuple[np.ndarray, int]:
 
 def normalize_audio(audio: np.ndarray) -> np.ndarray:
     """
-    Normalize audio to [-1, 1] range.
-    Prevents clipping and standardizes amplitude.
+    Advanced RMS normalization (Finetuned for actual live mics).
+    Removes recording bias and squashes dynamic web-audio distortion.
     """
-    max_val = np.max(np.abs(audio))
-    if max_val > 0:
-        return audio / max_val
+    # 0. Pre-emphasis filter to boost high frequencies 
+    # (sharpens speech formants against low-frequency laptop/phone mic rumble)
+    if len(audio) > 1:
+        audio = np.append(audio[0], audio[1:] - 0.97 * audio[:-1])
+
+    # 1. Remove DC Offset (typical in cheap laptop/phone mics)
+    audio = audio - np.mean(audio)
+    
+    # 2. RMS Energy Match (Targets 0.05 typical voice presence)
+    rms = np.sqrt(np.mean(audio**2))
+    if rms > 0.001:
+        audio = audio * (0.05 / rms)
+        
+    # 3. Soft clipping (TanH) to maintain acoustic fidelity without tearing
+    # Scales audio neatly within [-1.0, 1.0] bounds
+    audio = np.tanh(audio)
+    
     return audio
 
 

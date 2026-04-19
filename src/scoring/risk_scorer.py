@@ -81,10 +81,23 @@ class RiskScorer:
 
     def get_assessment(self) -> Dict:
         """Get current risk assessment."""
-        # Combined risk: maximum of voice deepfake or scam language likelihood
-        # This prevents normal voices saying scam phrases from being ignored,
-        # and deepfakes saying normal things from being ignored.
-        combined_score = max(self.smoothed_score, self.smoothed_nlp_score)
+        # Multi-Modal Fine-Tuning Fusion (Live Mic Optimization)
+        # Deepfakes trigger high acoustic risks due to cheap mics. 
+        # But if the person makes normal 'human' non-scam conversation,
+        # we weight down the false-positive AI audio score automatically.
+        v_score = self.smoothed_score
+        n_score = self.smoothed_nlp_score
+        
+        if n_score > 35.0:
+            # Significant linguistic threat increases the total risk profile
+            combined_score = max(v_score, n_score) * 0.8 + (v_score * 0.2)
+        else:
+            # If language is totally normal, drastically cut acoustic false-positive risk.
+            # E.g. Trusting it's just a bad microphone and relying mostly on content.
+            combined_score = (v_score * 0.60) + (n_score * 0.40)
+            
+        # Ensure percentages stay cleanly in [0, 100] bounds
+        combined_score = max(0.0, min(100.0, combined_score))
         
         level = self.classify(combined_score)
         return {

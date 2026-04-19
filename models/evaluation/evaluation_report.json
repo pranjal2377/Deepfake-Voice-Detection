@@ -1,0 +1,74 @@
+{
+  "metrics": {
+    "accuracy": 0.5,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "auc": 1.0,
+    "eer": 0.0
+  },
+  "confusion": {
+    "TN": 3,
+    "FP": 0,
+    "FN": 3,
+    "TP": 0
+  },
+  "optimal_threshold": 0.3599999999999999,
+  "optimal_f1": 1.0,
+  "per_class": {
+    "real": {
+      "total": 3,
+      "correct": 3,
+      "accuracy": 1.0,
+      "avg_probability": 0.3544618288675944,
+      "std_probability": 0.002959739397244271,
+      "min_probability": 0.351138710975647,
+      "max_probability": 0.3583274185657501
+    },
+    "fake": {
+      "total": 3,
+      "correct": 0,
+      "accuracy": 0.0,
+      "avg_probability": 0.3971039156119029,
+      "std_probability": 0.0019386396277555303,
+      "min_probability": 0.39444342255592346,
+      "max_probability": 0.3990075886249542
+    }
+  },
+  "misclassified": [
+    {
+      "path": "/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/testing/fake/fake_0000.wav",
+      "filename": "fake_0000.wav",
+      "true_label": 1,
+      "true_name": "fake",
+      "predicted_label": 0,
+      "predicted_name": "real",
+      "probability": 0.39444342255592346,
+      "correct": false
+    },
+    {
+      "path": "/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/testing/fake/fake_0001.wav",
+      "filename": "fake_0001.wav",
+      "true_label": 1,
+      "true_name": "fake",
+      "predicted_label": 0,
+      "predicted_name": "real",
+      "probability": 0.39786073565483093,
+      "correct": false
+    },
+    {
+      "path": "/home/pranjal/Cyber_project_2/Deepfake_Voice_Detection/data/raw/training/fake/fake_0006.wav",
+      "filename": "fake_0006.wav",
+      "true_label": 1,
+      "true_name": "fake",
+      "predicted_label": 0,
+      "predicted_name": "real",
+      "probability": 0.3990075886249542,
+      "correct": false
+    }
+  ],
+  "total_samples": 6,
+  "errors": 0,
+  "threshold_used": 0.5,
+  "evaluation_time_seconds": 3.3962972164154053
+}
