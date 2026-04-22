@@ -48,6 +48,6 @@ ui:
   theme: dark
   refresh_rate: 0.5
 nlp:
-  bert_model_name: distilbert-base-uncased
+  bert_model_name: mrm8488/bert-tiny-finetuned-sms-spam-detection
   confidence_threshold: 0.5
   device: cpu

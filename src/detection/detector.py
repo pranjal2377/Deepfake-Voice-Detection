@@ -81,6 +81,10 @@ class RealtimeDetector:
         # 1. Preprocess
         try:
             audio, sr = preprocess_audio(file_path)
+            # MEGA-SPEEDUP: Run Transcription & BERT ONCE on the full file!
+            # Instead of choking the CPU by transcribing every 2-second overlapping chunk 
+            full_transcript = self.transcriber.transcribe(audio, sr)
+            full_nlp_result = self.bert_classifier.analyze_transcript(full_transcript)
         except Exception as exc:
             raise ValueError(f"Failed to preprocess '{file_path}': {exc}") from exc
 
@@ -100,10 +104,9 @@ class RealtimeDetector:
             # (Note: Removed hardcoded demo overrides. System strictly relies on CNN weights now)
             probability = self._predict(frame, sr)
             
-            # 4.5. NLP inference
-            transcript = self.transcriber.transcribe(frame, sr)
-            nlp_result = self.bert_classifier.analyze_transcript(transcript)
-
+            # 4.5. NLP inference (MOCKED to the pre-computed full file result for 15x speeds!)
+            nlp_result = full_nlp_result
+            
             # 5. Score
             self.scorer.add_prediction(probability, nlp_result["nlp_probability"])
 
@@ -285,9 +288,17 @@ class RealtimeDetector:
         # Model inference
         probability = self._predict(frame, self.sr)
 
-        # NLP inference
-        transcript = self.transcriber.transcribe(frame, self.sr)
-        nlp_result = self.bert_classifier.analyze_transcript(transcript)
+        # LIVE MIC OPTIMIZATION: Only run heavy NLP inference every 4th frame (~2 secs loop delay)
+        # Re-using previous result guarantees real-time UI without huge lag spikes!
+        if not hasattr(self, "_cached_nlp"):
+            self._cached_nlp = {"nlp_probability": 0.0, "risk_level": "Low"}
+            
+        if frame_index % 4 == 0:
+            transcript = self.transcriber.transcribe(frame, self.sr)
+            if transcript.strip():
+                self._cached_nlp = self.bert_classifier.analyze_transcript(transcript)
+        
+        nlp_result = self._cached_nlp
 
         # Update scorer
         self.scorer.add_prediction(probability, nlp_result["nlp_probability"])

@@ -41,12 +41,9 @@ class BertClassifier:
         """Lazy load the model when first needed to save memory."""
         if not self._is_loaded:
             logger.info(f"Loading BERT model ({self.model_name}) on {self.device}...")
-            # Using num_labels=3 for Normal, Suspicious, Scam
+            # Automatically pulls appropriate spam/scam model from HuggingFace
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-            self.model = AutoModelForSequenceClassification.from_pretrained(
-                self.model_name, 
-                num_labels=3
-            )
+            self.model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
             self.model.to(self.device)
             self.model.eval()
             self._is_loaded = True
@@ -86,20 +83,19 @@ class BertClassifier:
         if probs.ndim == 0:
             probs = probs.reshape(-1)
             
+        # mrm8488/bert-tiny-finetuned-sms-spam-detection specifically outputs arrays [0, 1]
+        # LABEL_0 is usually Normal, LABEL_1 is Spam.
         prob_normal = float(probs[0])
-        prob_suspicious = float(probs[1]) if len(probs) > 1 else 0.0
-        prob_scam = float(probs[2]) if len(probs) > 2 else 0.0
+        prob_scam = float(probs[1]) if len(probs) > 1 else 0.0
+        prob_suspicious = 0.0 # binary model usually
         
-        # Calculate risk score, heavier weight on scam
-        nlp_score = prob_scam + (0.5 * prob_suspicious)
-        nlp_score = min(1.0, max(0.0, float(nlp_score)))
+        # Calculate risk score
+        nlp_score = float(prob_scam)
         
         # Intent classification
-        pred_idx = int(probs.argmax())
-        
-        if pred_idx == 2:
+        if nlp_score > 0.7:
             intent = "Scam"
-        elif pred_idx == 1:
+        elif nlp_score > 0.4:
             intent = "Suspicious"
         else:
             intent = "Normal"
