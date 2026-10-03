@@ -1,23 +1,31 @@
-# Virtual Environment
+# Virtual environments
 .venv/
 env/
 venv/
-__pycache__/
-*.pyc
 
-# IDEs and Editors
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# IDEs and editors
 .vscode/
 .idea/
-
-# Data and Models
-# data/
-# models/
-# results/
-# logs/
-
-# pytest cache
-.pytest_cache/
+*.swp
+*~
+.~lock.*#
 
 # OS generated files
 .DS_Store
-*.swp
+Thumbs.db
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Local runtime output
+logs/*.json
+results/*.tmp
+mobile_client/
